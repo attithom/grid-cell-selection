@@ -1,0 +1,54 @@
+{
+  "name": "grid-cell-selection",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A React hook for grid cell selection",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "rollup -c",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.11.1",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.2",
+    "eslint": "^9.11.1",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.12",
+    "globals": "^15.9.0",
+    "rollup": "^2.79.1",
+    "rollup-plugin-typescript2": "^0.31.2",
+    "typescript": "^4.9.5",
+    "typescript-eslint": "^8.7.0",
+    "vite": "^5.4.8"
+  },
+  "keywords": [
+    "react",
+    "hook",
+    "grid",
+    "cell",
+    "selection"
+  ],
+  "author": "Atticus Thomson",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/attithom/grid-cell-selection.git"
+  }
+}
