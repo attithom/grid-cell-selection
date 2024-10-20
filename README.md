@@ -4,7 +4,7 @@ A React hook for grid cell selection. A simple headless hook that.
 
 # Made by [Atticus](https://atticusthomson.com)
 
-![Grid Cell Selection](./grid-cell-selection.gif)
+![Grid Cell Selection](https://github.com/attithom/grid-cell-selection/blob/main/example.gif)
 
 ## Installation
 
