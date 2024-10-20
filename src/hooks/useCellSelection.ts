@@ -8,21 +8,21 @@ const getCellKey = (cell: Omit<CellIdentifier, "id">): string => {
 
 export const useGridCellSelection = () => {
   const [selectionState, setSelectionState] = useState<SelectionState>({
-    selectedCells: new Set(),
+    selectedCells: new Map<string, CellIdentifier>(),
   });
 
   const toggleCellSelection = (cell: CellIdentifier, ctrlKey = false, shiftKey = false, newSelection = false) => {
     setSelectionState((prevState) => {
-      const selectedCells = new Set(prevState.selectedCells);
+      const selectedCells = new Map(prevState.selectedCells);
       const cellKey = getCellKey(cell);
 
       if (prevState.startCell && !newSelection) {
         handleRangeSelection(selectedCells, prevState.startCell, cell);
       } else if ((shiftKey || ctrlKey) && newSelection) {
-        handleSingleOrMultipleSelection(selectedCells, cellKey);
+        handleSingleOrMultipleSelection(selectedCells, cellKey, cell);
       } else {
         selectedCells.clear();
-        selectedCells.add(cellKey);
+        selectedCells.set(cellKey, cell);
       }
 
       return {
@@ -48,9 +48,13 @@ export const useGridCellSelection = () => {
   };
 };
 
-// New helper functions
-function handleRangeSelection(selectedCells: Set<string>, startCell: CellIdentifier, endCell: CellIdentifier) {
-  const action = selectedCells.has(getCellKey(startCell)) ? "add" : "delete";
+// Updated helper functions
+function handleRangeSelection(
+  selectedCells: Map<string, CellIdentifier>,
+  startCell: CellIdentifier,
+  endCell: CellIdentifier
+) {
+  const action = selectedCells.has(getCellKey(startCell)) ? "set" : "delete";
   const [startRow, startCol] = [startCell.row, startCell.col];
   const [endRow, endCol] = [endCell.row, endCell.col];
 
@@ -61,15 +65,24 @@ function handleRangeSelection(selectedCells: Set<string>, startCell: CellIdentif
 
   for (let row = minRow; row <= maxRow; row++) {
     for (let col = minCol; col <= maxCol; col++) {
-      selectedCells[action](getCellKey({ row, col }));
+      const cellKey = getCellKey({ row, col });
+      if (action === "set") {
+        selectedCells.set(cellKey, { row, col });
+      } else {
+        selectedCells.delete(cellKey);
+      }
     }
   }
 }
 
-function handleSingleOrMultipleSelection(selectedCells: Set<string>, cellKey: string) {
+function handleSingleOrMultipleSelection(
+  selectedCells: Map<string, CellIdentifier>,
+  cellKey: string,
+  cell: CellIdentifier
+) {
   if (selectedCells.has(cellKey)) {
     selectedCells.delete(cellKey);
   } else {
-    selectedCells.add(cellKey);
+    selectedCells.set(cellKey, cell);
   }
 }
