@@ -1,11 +1,11 @@
 import React from "react";
-import { useGridCellSelection } from "./hooks/useCellSelection";
+import { useGridCellSelection } from "./index";
 
 function App() {
   const columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
   const rows = 20;
 
-  const { isCellSelected, handleMouseDown, handleMouseEnter, handleMouseUp } = useGridCellSelection("multiple");
+  const { isCellSelected, handleMouseDown, handleMouseEnter, handleMouseUp } = useGridCellSelection();
 
   return (
     <>

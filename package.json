@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "rollup -c",
+    "build": "rollup -c && tsc --emitDeclarationOnly",
     "lint": "eslint .",
     "preview": "vite preview",
     "prepublishOnly": "npm run build"

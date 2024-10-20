@@ -1,18 +1,22 @@
 # Grid Cell Selection
 
-A React hook for grid cell selection.
+A React hook for grid cell selection. A simple headless hook that.
+
+# Made by [Atticus](https://atticusthomson.com)
+
+![Grid Cell Selection](./grid-cell-selection.gif)
 
 ## Installation
 
 ```bash
-npm install useGridCellSelection
+npm install grid-cell-selection
 ```
 
 ## Usage
 
 ```tsx
 import React from "react";
-import { useGridCellSelection } from "./hooks/useCellSelection";
+import { useGridCellSelection } from "grid-cell-selection";
 
 function App() {
   const columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];

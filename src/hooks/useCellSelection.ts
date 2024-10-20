@@ -1,15 +1,14 @@
 import { useState } from "react";
-import { CellIdentifier, SelectionMode, SelectionState } from "../types";
+import { CellIdentifier, SelectionState } from "../types";
 import { useMouseDragSelection } from "./useMouseDragSelection";
 
 const getCellKey = (cell: Omit<CellIdentifier, "id">): string => {
   return `${cell.row}-${cell.col}`;
 };
 
-export const useGridCellSelection = (mode: SelectionMode = "single") => {
+export const useGridCellSelection = () => {
   const [selectionState, setSelectionState] = useState<SelectionState>({
     selectedCells: new Set(),
-    mode,
   });
 
   const toggleCellSelection = (cell: CellIdentifier, ctrlKey = false, shiftKey = false, newSelection = false) => {
