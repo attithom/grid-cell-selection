@@ -48,3 +48,18 @@ function App() {
   );
 }
 ```
+
+## Cell Selection Behavior
+
+### Single Cell Selection
+
+- Click on a cell to select it.
+- Clicking on a different cell deselects any previously selected cells.
+
+### Range Selection
+
+- Click and drag to select a range of cells
+
+### Multiple Range Selection
+
+- Hold Ctrl (or Cmd on Mac) or Shift to select multiple ranges
