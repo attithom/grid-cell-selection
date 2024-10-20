@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { CellIdentifier, SelectionMode, SelectionState } from "../types";
+import { useMouseDragSelection } from "./useMouseDragSelection";
 
 const getCellKey = (cell: Omit<CellIdentifier, "id">): string => {
   return `${cell.row}-${cell.col}`;
 };
 
-export const useCellSelection = (mode: SelectionMode = "single") => {
+export const useGridCellSelection = (mode: SelectionMode = "single") => {
   const [selectionState, setSelectionState] = useState<SelectionState>({
     selectedCells: new Set(),
     mode,
@@ -37,10 +38,14 @@ export const useCellSelection = (mode: SelectionMode = "single") => {
     return selectionState.selectedCells.has(getCellKey(cell));
   };
 
+  const { handleMouseDown, handleMouseEnter, handleMouseUp } = useMouseDragSelection(toggleCellSelection);
+
   return {
     selectedCells: selectionState.selectedCells,
-    toggleCellSelection,
     isCellSelected,
+    handleMouseDown,
+    handleMouseEnter,
+    handleMouseUp,
   };
 };
 
