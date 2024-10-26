@@ -21,8 +21,12 @@ export const useGridCellSelection = () => {
       } else if ((shiftKey || ctrlKey) && newSelection) {
         handleSingleOrMultipleSelection(selectedCells, cellKey, cell);
       } else {
-        selectedCells.clear();
-        selectedCells.set(cellKey, cell);
+        if (selectedCells.has(cellKey)) {
+          selectedCells.clear();
+        } else {
+          selectedCells.clear();
+          selectedCells.set(cellKey, cell);
+        }
       }
 
       return {
