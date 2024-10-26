@@ -41,6 +41,10 @@ export const useGridCellSelection = (allCells?: CellIdentifier[]) => {
     return selectionState.selectedCells.has(getCellKey(cell));
   };
 
+  const resetSelection = () => {
+    setSelectionState({ selectedCells: new Map<string, CellIdentifier>() });
+  };
+
   const { handleMouseDown, handleMouseEnter, handleMouseUp } = useMouseDragSelection(toggleCellSelection);
 
   return {
@@ -49,6 +53,7 @@ export const useGridCellSelection = (allCells?: CellIdentifier[]) => {
     handleMouseDown,
     handleMouseEnter,
     handleMouseUp,
+    resetSelection,
   };
 };
 

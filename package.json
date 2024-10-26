@@ -1,6 +1,6 @@
 {
   "name": "grid-cell-selection",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A React hook for grid cell selection",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
