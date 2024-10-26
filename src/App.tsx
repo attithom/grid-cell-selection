@@ -15,9 +15,9 @@ function App() {
             <tr key={row}>
               {columns.map((column, col) => (
                 <td
-                  onMouseEnter={(event) => handleMouseEnter({ row, col }, event)}
-                  onMouseDown={(event) => handleMouseDown({ row, col }, event)}
-                  className={`${isCellSelected({ row, col }) ? "selected" : ""}`}
+                  onMouseEnter={(event) => handleMouseEnter({ id: `${row}-${col}`, row, col }, event)}
+                  onMouseDown={(event) => handleMouseDown({ id: `${row}-${col}`, row, col }, event)}
+                  className={`${isCellSelected({ id: `${row}-${col}`, row, col }) ? "selected" : ""}`}
                 >
                   {column}
                   {row}

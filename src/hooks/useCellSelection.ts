@@ -6,7 +6,7 @@ const getCellKey = (cell: Omit<CellIdentifier, "id">): string => {
   return `${cell.row}-${cell.col}`;
 };
 
-export const useGridCellSelection = () => {
+export const useGridCellSelection = (allCells?: CellIdentifier[]) => {
   const [selectionState, setSelectionState] = useState<SelectionState>({
     selectedCells: new Map<string, CellIdentifier>(),
   });
@@ -17,7 +17,7 @@ export const useGridCellSelection = () => {
       const cellKey = getCellKey(cell);
 
       if (prevState.startCell && !newSelection) {
-        handleRangeSelection(selectedCells, prevState.startCell, cell);
+        handleRangeSelection(selectedCells, prevState.startCell, cell, allCells);
       } else if ((shiftKey || ctrlKey) && newSelection) {
         handleSingleOrMultipleSelection(selectedCells, cellKey, cell);
       } else {
@@ -56,7 +56,8 @@ export const useGridCellSelection = () => {
 function handleRangeSelection(
   selectedCells: Map<string, CellIdentifier>,
   startCell: CellIdentifier,
-  endCell: CellIdentifier
+  endCell: CellIdentifier,
+  allCells?: CellIdentifier[]
 ) {
   const action = selectedCells.has(getCellKey(startCell)) ? "set" : "delete";
   const [startRow, startCol] = [startCell.row, startCell.col];
@@ -71,7 +72,12 @@ function handleRangeSelection(
     for (let col = minCol; col <= maxCol; col++) {
       const cellKey = getCellKey({ row, col });
       if (action === "set") {
-        selectedCells.set(cellKey, { row, col });
+        if (allCells) {
+          const cell = allCells.find((c) => c.row === row && c.col === col);
+          cell && selectedCells.set(cellKey, cell);
+        } else {
+          selectedCells.set(cellKey, { id: cellKey, row, col });
+        }
       } else {
         selectedCells.delete(cellKey);
       }

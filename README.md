@@ -32,9 +32,9 @@ function App() {
             <tr key={row}>
               {columns.map((column, col) => (
                 <td
-                  onMouseEnter={(event) => handleMouseEnter({ row, col }, event)}
-                  onMouseDown={(event) => handleMouseDown({ row, col }, event)}
-                  className={`${isCellSelected({ row, col }) ? "selected" : ""}`}
+                  onMouseEnter={(event) => handleMouseEnter({ id: `${row}-${col}`, row, col }, event)}
+                  onMouseDown={(event) => handleMouseDown({ id: `${row}-${col}`, row, col }, event)}
+                  className={`${isCellSelected({ id: `${row}-${col}`, row, col }) ? "selected" : ""}`}
                 >
                   {column}
                   {row}
@@ -63,3 +63,7 @@ function App() {
 ### Multiple Range Selection
 
 - Hold Ctrl (or Cmd on Mac) or Shift to select multiple ranges
+
+### ID Prop
+
+If you provide an array of all cells, the hook will include the cell IDs when tracking the selected cells.
