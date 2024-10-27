@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { CellIdentifier, SelectionState } from "../types";
 import { useMouseDragSelection } from "./useMouseDragSelection";
 
@@ -45,7 +45,28 @@ export const useGridCellSelection = (allCells?: CellIdentifier[]) => {
     setSelectionState({ selectedCells: new Map<string, CellIdentifier>() });
   };
 
-  const { handleMouseDown, handleMouseEnter, handleMouseUp } = useMouseDragSelection(toggleCellSelection);
+  const handleTouchMove = useCallback(
+    (event: React.TouchEvent) => {
+      // Get the touch point
+      console.log("selectedCells", selectionState.selectedCells);
+      if (selectionState.selectedCells.size > 0) {
+        const touch = event.touches[0];
+        const target = document.elementFromPoint(touch.clientX, touch.clientY);
+        // Get closest cell
+        const closest = target?.closest("[data-cell-id]");
+        const cellId = closest?.getAttribute("data-cell-id");
+        const cellRow = closest?.getAttribute("data-cell-row");
+        const cellCol = closest?.getAttribute("data-cell-col");
+        if (cellId && cellRow && cellCol && !selectionState.selectedCells.has(cellId)) {
+          handleMouseEnter({ id: cellId, row: parseInt(cellRow), col: parseInt(cellCol) }, event);
+        }
+      }
+    },
+    [selectionState.selectedCells]
+  );
+
+  const { handleMouseDown, handleMouseEnter, handleMouseUp, handleTouchStart } =
+    useMouseDragSelection(toggleCellSelection);
 
   return {
     selectedCells: selectionState.selectedCells,
@@ -53,6 +74,8 @@ export const useGridCellSelection = (allCells?: CellIdentifier[]) => {
     handleMouseDown,
     handleMouseEnter,
     handleMouseUp,
+    handleTouchMove,
+    handleTouchStart,
     resetSelection,
   };
 };
