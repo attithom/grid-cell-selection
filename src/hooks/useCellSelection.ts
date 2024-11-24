@@ -1,12 +1,22 @@
 import { useCallback, useState } from "react";
-import { CellIdentifier, SelectionState } from "../types";
+import { CellIdentifier, SelectionOptions, SelectionState } from "../types";
 import { useMouseDragSelection } from "./useMouseDragSelection";
 
 const getCellKey = (cell: Omit<CellIdentifier, "id">): string => {
   return `${cell.row}-${cell.col}`;
 };
 
-export const useGridCellSelection = (allCells?: CellIdentifier[]) => {
+export const useGridCellSelection = ({
+  allCells,
+  options = {
+    allowYScrollSelection: true,
+    clearSelectionOnScroll: false,
+    scrollThreshold: 100,
+  },
+}: {
+  allCells?: CellIdentifier[];
+  options?: SelectionOptions;
+}) => {
   const [selectionState, setSelectionState] = useState<SelectionState>({
     selectedCells: new Map<string, CellIdentifier>(),
   });
@@ -65,8 +75,11 @@ export const useGridCellSelection = (allCells?: CellIdentifier[]) => {
     [selectionState.selectedCells]
   );
 
-  const { handleMouseDown, handleMouseEnter, handleMouseUp, handleTouchStart } =
-    useMouseDragSelection(toggleCellSelection);
+  const { handleMouseDown, handleMouseEnter, handleMouseUp, handleTouchStart } = useMouseDragSelection(
+    toggleCellSelection,
+    resetSelection,
+    options
+  );
 
   return {
     selectedCells: selectionState.selectedCells,

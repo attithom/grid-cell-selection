@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useGridCellSelection } from "./index";
 
 function App() {
-  const [mode, setMode] = useState<"mouse" | "touch">("mouse");
-  const columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
-  const rows = 20;
+  const [mode, setMode] = useState<"mouse" | "touch">("touch");
+  const [allowYScrollSelection, setAllowYScrollSelection] = useState(false);
+  const columns = ["A", "B", "C", "D", "E", "F", "G"];
+  const rows = 100;
 
   const { isCellSelected, handleMouseDown, handleMouseEnter, handleMouseUp, handleTouchMove, handleTouchStart } =
-    useGridCellSelection();
+    useGridCellSelection({ options: { allowYScrollSelection, clearSelectionOnScroll: true, scrollThreshold: 100 } });
 
   return (
     <>
@@ -24,9 +25,15 @@ function App() {
         >
           Mouse + Touch Selection
         </div>
+        <div
+          style={{ cursor: "pointer", fontWeight: allowYScrollSelection ? "bold" : "normal" }}
+          onClick={() => setAllowYScrollSelection(!allowYScrollSelection)}
+        >
+          {allowYScrollSelection ? "Disable" : "Enable"} Y Scroll Selection
+        </div>
       </div>
       {mode === "touch" ? (
-        <table onMouseUp={handleMouseUp} onTouchMove={handleTouchMove} style={{ touchAction: "none" }}>
+        <table onMouseUp={handleMouseUp} onTouchMove={handleTouchMove} onTouchEnd={handleMouseUp}>
           <tbody>
             {Array.from({ length: rows }, (_, row) => (
               <tr key={row}>
@@ -43,6 +50,9 @@ function App() {
                   >
                     {column}
                     {row}
+                    <button onClick={() => console.log(isCellSelected({ id: `${row}-${col}`, row, col }))}>
+                      isSelected
+                    </button>
                   </td>
                 ))}
               </tr>

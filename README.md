@@ -58,14 +58,21 @@ function App() {
 
 ```tsx
 function App() {
-  const columns = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
-  const rows = 20;
+  const columns = ["A", "B", "C", "D", "E", "F", "G"];
+  const rows = 100;
 
   const { isCellSelected, handleMouseDown, handleMouseEnter, handleMouseUp, handleTouchMove, handleTouchStart } =
-    useGridCellSelection();
+    useGridCellSelection({
+      options: { allowYScrollSelection: true, clearSelectionOnScroll: true, scrollThreshold: 100 },
+    });
 
   return (
-    <table onMouseUp={handleMouseUp} onTouchMove={handleTouchMove} style={{ touchAction: "none" }}>
+    <table
+      onMouseUp={handleMouseUp}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleMouseUp}
+      style={{ touchAction: "none" }}
+    >
       <tbody>
         {Array.from({ length: rows }, (_, row) => (
           <tr key={row}>
@@ -90,6 +97,13 @@ function App() {
     </table>
   );
 }
+```
+
+```
+Options:
+- allowYScrollSelection: boolean - Whether to allow vertical scrolling selection
+- clearSelectionOnScroll: boolean - Whether to clear the selection when the user scrolls
+- scrollThreshold: number - The number of pixels the user must scroll before the selection is cleared
 ```
 
 ## Cell Selection Behavior
