@@ -43,7 +43,6 @@ export const useMouseDragSelection = (
   const handleMouseUp = () => {
     setIsDragging(false);
     if (selectionStartScrollY.current !== null && options.clearSelectionOnScroll) {
-      console.log("scrollY", window.scrollY, "selectionStartScrollY", selectionStartScrollY.current);
       if (Math.abs(window.scrollY - selectionStartScrollY.current) > options.scrollThreshold) {
         resetSelection();
       }

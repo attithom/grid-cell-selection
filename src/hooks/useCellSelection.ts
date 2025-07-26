@@ -58,7 +58,6 @@ export const useGridCellSelection = ({
   const handleTouchMove = useCallback(
     (event: React.TouchEvent) => {
       // Get the touch point
-      console.log("selectedCells", selectionState.selectedCells);
       if (selectionState.selectedCells.size > 0) {
         const touch = event.touches[0];
         const target = document.elementFromPoint(touch.clientX, touch.clientY);
